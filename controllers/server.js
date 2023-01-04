@@ -2,6 +2,8 @@ const express = require('express');
 const db = require('../model/pgdb');
 const app = express();
 const bodyParser = require('body-parser');
+// require('dotenv').config();
+// const tracing = require('./tracing');
 
 /*Middle-Ware*/
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,27 +15,28 @@ Defined Routes below
 */
 
 app.get('/reviews/', async (req, res) => {
-  const product_id =
-    !req.query.product_id || isNaN(req.query.product_id)
-      ? res.status(422).send('Error with query params')
-      : req.query.product_id;
-  let count = !req.query.count || isNaN(req.query.count) ? 5 : req.query.count;
-  let sort = req.query.sort || 'newest';
-  let page = !req.query.page || isNaN(req.query.page) ? 1 : req.query.page;
+  const q = req.query;
+  const product_id = parseInt(q.product_id) ? parseInt(q.product_id) : null;
+  let count = parseInt(q.count) ? parseInt(q.count) : 5;
+  let sort = q.sort || 'newest';
+  let page = parseInt(q.page) ? parseInt(q.page) : 1;
   let params = { product_id, count, sort, page };
-
-  try {
-    const results = await db.getReviews(params);
-    let reviews = {
-      product: product_id,
-      page: page,
-      count: count,
-      results: results.rows,
-    };
-    res.status(200).send(reviews);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({ error: err });
+  if (product_id) {
+    try {
+      const results = await db.getReviews(params);
+      let reviews = {
+        product: product_id,
+        page: page,
+        count: count,
+        results: results.rows,
+      };
+      res.status(200).send(reviews);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send({ error: err });
+    }
+  } else {
+    res.status(422).send({ error: 'Error with query' });
   }
 });
 
@@ -97,6 +100,7 @@ app.put('/reviews/:review_id/helpful', async (req, res) => {
     res.status(500).send({ error: err });
   }
 });
+
 app.put('/reviews/:review_id/report', async (req, res) => {
   const review_id = req.params.review_id;
   try {
@@ -107,8 +111,8 @@ app.put('/reviews/:review_id/report', async (req, res) => {
   }
 });
 
-// app.listen(3000, () => {
-//   console.log('Server started and listening on port: ', 3000);
-// });
+app.listen(3000, () => {
+  console.log('Server started and listening on port: ', 3000);
+});
 
 module.exports = app;

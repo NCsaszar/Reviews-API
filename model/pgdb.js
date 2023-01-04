@@ -3,6 +3,9 @@ const connectionString =
   'postgresql://postgres:9557@192.168.4.29:5432/postgres';
 const pool = new Pool({
   connectionString: connectionString,
+  // max: 6, // maximum number of connections in the pool
+  idleTimeoutMillis: 10000, // idle timeout for connections in the pool (30 seconds)
+  connectionTimeoutMillis: 2000, // connection timeout (2 seconds)
 });
 
 const validPost = (req) => {
@@ -48,13 +51,14 @@ GROUP BY r.review_id
 LIMIT ${params.count}
 `;
   let result;
+  let client;
   try {
-    const client = await pool.connect();
+    client = await pool.connect();
     result = await client.query(query);
-    client.release();
   } catch (error) {
     console.error(error);
   } finally {
+    client.release();
     for (let i = 0; i < result.rows.length; i++) {
       let review = result.rows[i];
       let photos = review.photos;
@@ -104,7 +108,6 @@ const getRec = async (product_id) => {
 const getCharacteristics = async (product_id) => {
   try {
     const client = await pool.connect();
-    // Get the characteristics for the given product
     const characteristics = await client.query(
       `
       SELECT c.characteristic_id, c.name

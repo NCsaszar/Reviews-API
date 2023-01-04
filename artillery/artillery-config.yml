@@ -1,0 +1,50 @@
+config:
+  target: 'http://localhost:3000' #base url
+  phases:
+    - duration: 60 # run tests for (seconds)
+      arrivalRate: 1000 # send one user (users to send per second)
+  http:
+    maxSockets: 4
+    # arrivalCount: 40 #Fixed number of arrivals per duration
+scenarios:
+  # - name: 'Helpful'
+  #   flow:
+  #     - log: 'New virtual user running'
+  #     - put:
+  #         url: '/reviews/{{ $randomNumber(1, 5000) }}/helpful'
+  # - name: 'Report'
+  #   flow:
+  #     - log: 'New virtual user running'
+  #     - put:
+  #         url: '/reviews/{{ $randomNumber(1, 1000) }}/report'
+  # - name: 'Get Product Reviews'
+  #   flow:
+  #     - log: 'New virtual user running'
+  #     - get:
+  #         url: '/reviews/?product_id={{ $randomNumber(1,100) }}&count=5'
+  - name: 'Get Product Meta Data'
+    flow:
+      - log: 'New virtual user running'
+      - get:
+          url: '/reviews/meta?product_id={{ $randomNumber(1, 100) }}'
+  # - name: 'Create Review'
+  #   flow:
+  #     - log: 'New virtual user running'
+  #     - post:
+  #         url: '/reviews'
+  #         json:
+  #           product_id: 11
+  #           rating: 4
+  #           summary: 'test summary'
+  #           body: 'test body'
+  #           recommend: false
+  #           name: 'nick'
+  #           email: 'nick@nick.com'
+  #           photos:
+  #             - 'https://images.unsplash.com/photo-1560570803-7474c0f9af99?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80'
+  #             - 'https://images.unsplash.com/photo-1560570803-7474c0f9af99?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80'
+  #           characteristics:
+  #             35: 5
+  #             36: 5
+  #             37: 5
+  #             38: 5
