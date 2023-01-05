@@ -1,11 +1,13 @@
 const { Pool } = require('pg');
+// const connectionString =
+//   'postgresql://postgres:9557@192.168.4.29:5432/postgres';
 const connectionString =
-  'postgresql://postgres:9557@192.168.4.29:5432/postgres';
+  'postgres://ubuntu:ubuntu@ec2-3-83-39-192.compute-1.amazonaws.com:5432/postgres';
 const pool = new Pool({
   connectionString: connectionString,
   // max: 6, // maximum number of connections in the pool
-  idleTimeoutMillis: 10000, // idle timeout for connections in the pool (30 seconds)
-  connectionTimeoutMillis: 2000, // connection timeout (2 seconds)
+  // idleTimeoutMillis: 10000, // idle timeout for connections in the pool (30 seconds)
+  // connectionTimeoutMillis: 3000, // connection timeout (2 seconds)
 });
 
 const validPost = (req) => {

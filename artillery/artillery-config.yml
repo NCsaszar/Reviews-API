@@ -1,8 +1,8 @@
 config:
   target: 'http://localhost:3000' #base url
   phases:
-    - duration: 60 # run tests for (seconds)
-      arrivalRate: 1000 # send one user (users to send per second)
+    - duration: 20 # run tests for (seconds)
+      arrivalRate: 200 # send one user (users to send per second)
   http:
     maxSockets: 4
     # arrivalCount: 40 #Fixed number of arrivals per duration
@@ -22,11 +22,11 @@ scenarios:
   #     - log: 'New virtual user running'
   #     - get:
   #         url: '/reviews/?product_id={{ $randomNumber(1,100) }}&count=5'
-  - name: 'Get Product Meta Data'
-    flow:
-      - log: 'New virtual user running'
-      - get:
-          url: '/reviews/meta?product_id={{ $randomNumber(1, 100) }}'
+  # - name: 'Get Product Meta Data'
+  #   flow:
+  #     - log: 'New virtual user running'
+  #     - get:
+  #         url: '/reviews/meta?product_id={{ $randomNumber(1, 100) }}'
   # - name: 'Create Review'
   #   flow:
   #     - log: 'New virtual user running'
