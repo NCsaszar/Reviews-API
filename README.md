@@ -7,6 +7,7 @@
 ![SQL](https://img.shields.io/badge/SQL-%2300f.svg?style=for-the-badge&logo=sql&logoColor=white)
 ![Nodemon](https://img.shields.io/badge/nodemon-%2376D04B.svg?style=for-the-badge&logo=nodemon&logoColor=white)
 ![Jest](https://img.shields.io/badge/jest-%23C21325.svg?style=for-the-badge&logo=jest&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
 # Product Pipeline - Reviews API
 
